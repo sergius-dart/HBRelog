@@ -76,7 +76,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Honorbuddy">
-      <HintPath>..\Dependencies\Honorbuddy.exe</HintPath>
+      <HintPath>C:\Program Files (x86)\Honorbuddy\Honorbuddy.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

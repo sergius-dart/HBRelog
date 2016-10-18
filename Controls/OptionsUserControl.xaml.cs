@@ -25,6 +25,7 @@ namespace HighVoltz.HBRelog.Controls
         public OptionsUserControl()
         {
             InitializeComponent();
+            ProxyInput.FileName = GlobalSettings.Instance.ProxyInput;
         }
 
         private void DarkStyleCheckCheckedChanged(object sender, RoutedEventArgs e)
@@ -67,6 +68,11 @@ namespace HighVoltz.HBRelog.Controls
                 var settings = HbRelogManager.Settings.Export(sfd.FileName);
                 settings.Save(sfd.FileName);
             }
+        }
+
+        private void ProxyInput_FileNameChanged(object sender, RoutedEventArgs e)
+        {
+            GlobalSettings.Instance.ProxyInput = ProxyInput.FileName;
         }
     }
 }

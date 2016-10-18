@@ -30,6 +30,23 @@ using HighVoltz.HBRelog.Tasks;
 
 namespace HighVoltz.HBRelog.Settings
 {
+    public class ProxyInfo
+    {
+        public string name;
+        public string type;
+        public string address;
+        public string port;
+        public string login;
+        public string password;
+        public string GenerateUri()
+        {
+            if (name == null || type == null || address == null || port == null )
+                return null;
+            return login == null ? 
+                String.Format("{0}://{1}:{2}",type, address, port) :
+                String.Format("{0}://{3}:{4}@{1}:{2}", type, address, port,login,password);
+        }
+    }
     public class GlobalSettings : INotifyPropertyChanged
     {
 		public static GlobalSettings Instance { get; private set; }
@@ -231,6 +248,58 @@ namespace HighVoltz.HBRelog.Settings
             }
         }
 
+        //list proxy
+        private string _proxyInput = "";
+        public String ProxyInput
+        {
+            get { return _proxyInput; }
+            set { NotifyPropertyChanged(ref _proxyInput, ref value, nameof(ProxyInput)); }
+        }
+
+        private List<ProxyInfo> _proxyList ;
+
+        public ProxyInfo GetProxyByName( string fname )
+        {
+            foreach( ProxyInfo _info in _proxyList )
+            {
+                if (_info.name == fname)
+                    return _info;
+            }
+            return null;
+        }
+
+        private void loadProxyList()
+        {
+            if (_proxyList == null)
+                _proxyList = new List<ProxyInfo>();
+            _proxyList.Clear();
+            if (!File.Exists(ProxyInput))
+                return;
+            string[] fullFile = File.ReadAllLines(ProxyInput);
+            foreach( string line in fullFile )
+            {
+                int index = 0;
+                ProxyInfo info = new ProxyInfo();
+                foreach ( string item in line.Split(':') )
+                {
+                    index++;
+                    switch(index)
+                    {
+                        case 1: info.name = item; break;
+                        case 2: info.type = item; break;
+                        case 3: info.address = item; break;
+                        case 4: info.port = item; break;
+                        case 5: info.login = item; break;
+                        case 6: info.password = item; break;
+                        default: break;
+                    }
+                }
+                if (index < 4) //если неполные данные, то пропускаем
+                    continue;
+                _proxyList.Add(info);
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         // serializers giving me issues with colections.. so saving stuff manually.
         public void Save(string path = null)
@@ -261,6 +330,8 @@ namespace HighVoltz.HBRelog.Settings
                 root.Add(new XElement("LuaStateOffset", LuaStateOffset));
 				root.Add(new XElement("LoadingScreenEnableCountOffset", LoadingScreenEnableCountOffset));
 
+                root.Add(new XElement("ProxyInput", ProxyInput));
+
                 var characterProfilesElement = new XElement("CharacterProfiles");
                 foreach (CharacterProfile profile in CharacterProfiles)
                 {
@@ -284,6 +355,7 @@ namespace HighVoltz.HBRelog.Settings
                     wowSettingsElement.Add(new XElement("WowWindowHeight", profile.Settings.WowSettings.WowWindowHeight));
                     wowSettingsElement.Add(new XElement("WowWindowX", profile.Settings.WowSettings.WowWindowX));
                     wowSettingsElement.Add(new XElement("WowWindowY", profile.Settings.WowSettings.WowWindowY));
+                    wowSettingsElement.Add(new XElement("ProxyName", profile.Settings.WowSettings.ProxyName));
                     settingsElement.Add(wowSettingsElement);
                     var hbSettingsElement = new XElement("HonorbuddySettings");
                     // Honorbuddy Settings
@@ -412,7 +484,11 @@ namespace HighVoltz.HBRelog.Settings
                     LuaStateOffset = GetElementValue(root.Element("LuaStateOffset"), 0u);
                     //settings.LastHardwareEventOffset = GetElementValue(root.Element("LastHardwareEventOffset"), 0u);
 
-					CharacterProfiles.Clear();
+                    ProxyInput = GetElementValue<string>(root.Element("ProxyInput"), "");
+
+                    loadProxyList();
+
+                    CharacterProfiles.Clear();
 					XElement characterProfilesElement = root.Element("CharacterProfiles");
                     foreach (XElement profileElement in characterProfilesElement.Elements("CharacterProfile"))
                     {
@@ -439,6 +515,7 @@ namespace HighVoltz.HBRelog.Settings
                             profile.Settings.WowSettings.WowWindowHeight = GetElementValue<int>(wowSettingsElement.Element("WowWindowHeight"));
                             profile.Settings.WowSettings.WowWindowX = GetElementValue<int>(wowSettingsElement.Element("WowWindowX"));
                             profile.Settings.WowSettings.WowWindowY = GetElementValue<int>(wowSettingsElement.Element("WowWindowY"));
+                            profile.Settings.WowSettings.ProxyName = GetElementValue<string>(wowSettingsElement.Element("ProxyName"),"");
                         }
                         XElement hbSettingsElement = settingsElement.Element("HonorbuddySettings");
                         // Honorbuddy Settings

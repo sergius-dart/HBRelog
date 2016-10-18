@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="clr-namespace:HighVoltz.HBRelog.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="291" d:DesignWidth="590" HorizontalAlignment="Stretch">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" >
@@ -121,6 +122,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock  Text="Check Realm Status" />
                     <CheckBox Grid.Column="1" IsChecked="{Binding CheckRealmStatus}" Name="checkBox2" ToolTip="Check if Wow servers are up" />
@@ -128,6 +130,13 @@
                     <CheckBox Grid.Column="1" Grid.Row="1" IsChecked="{Binding CheckHbResponsiveness}" Name="hbResponsivenessCheck" ToolTip="Disable this if you are a developer and like to attach a debugger to HB" />
                     <TextBlock Grid.Row="2" Text="Check Wow's Responsiveness" />
                     <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding CheckWowResponsiveness}" Name="wowResponsivenessCheck" ToolTip="Disable this if you are having problems with Wow being restarted when it's not frozen." />
+                    <!--WoW Exe-->
+                    <TextBlock Text="Proxy Input" Grid.Row="3" HorizontalAlignment="Left" Height="20" Margin="5,1,0,0" Grid.ColumnSpan="2" />
+                    <Controls:FileInputBox x:Name="ProxyInput" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Width="30"
+                                                       FileNameChanged="ProxyInput_FileNameChanged"
+                                                       Title="Select proxy list file"
+                                                       ToolTip="The list of proxy to Wow.exe. click the '...' button on the right to browse to it. This can also be a batch file enable proxy WoW.exe"/>
+
                 </Grid>
             </GroupBox>
         </Grid>

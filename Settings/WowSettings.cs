@@ -234,6 +234,13 @@ namespace HighVoltz.HBRelog.Settings
 		    set { NotifyPropertyChanged(ref _region, ref value, nameof(Region)); }
 	    }
 
+        private string _proxyName = "";
+        public String ProxyName
+        {
+            get { return _proxyName; }
+            set { NotifyPropertyChanged(ref _proxyName, ref value, nameof(ProxyName)); }
+        }
+
         public WowSettings ShadowCopy()
         {
             return (WowSettings)MemberwiseClone();

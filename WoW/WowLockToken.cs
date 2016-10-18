@@ -144,7 +144,13 @@ namespace HighVoltz.HBRelog.WoW
 					{
 						var launcherPath = Path.Combine(Utility.AssemblyDirectory, "Launcher.exe");
 						pi.FileName = launcherPath;
-						var args = string.Format("\"{0}\" \"{1}\"", _lockOwner.Settings.WowPath, _lockOwner.Settings.WowArgs);
+                        HBRelog.Settings.ProxyInfo info = HBRelog.Settings.GlobalSettings.Instance.GetProxyByName(_lockOwner.Settings.ProxyName);
+                        if ( info == null )
+                        {
+                            System.Windows.Forms.MessageBox.Show("Not fineded socks info in list. Check name and file socks.\n Game NOT started!");
+                            return;
+                        }
+						var args = string.Format("\"{0}\" \"{1}\" \"{2}\"", _lockOwner.Settings.WowPath, _lockOwner.Settings.WowArgs, info.GenerateUri() );
 						pi.Arguments = args;
 					}
 					else

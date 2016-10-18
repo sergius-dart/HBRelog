@@ -20,7 +20,8 @@ namespace HighVoltz.Launcher
 			}
 			string programPath = args[0];
 			string arg = args.Length > 1 ? args[1] : "";
-			Helpers.StartProcessSuspended(programPath, arg);
+            string proxy = args.Length > 2 ? args[2] : "";
+            Helpers.StartProcessSuspended(programPath, arg, proxy );
 			return 0;
 		}
 
