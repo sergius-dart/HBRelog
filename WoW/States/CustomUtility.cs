@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using Button = HighVoltz.HBRelog.WoW.FrameXml.Button;
 
 namespace HighVoltz.HBRelog.WoW.States
 {
@@ -35,7 +37,7 @@ namespace HighVoltz.HBRelog.WoW.States
             // check if we need to remove exisiting text.
             if (!string.IsNullOrEmpty(editBoxText))
             {
-                Utility.SendBackgroundKey(_wowManager.GameProcess.MainWindowHandle, (char)System.Windows.Forms.Keys.End, false);
+                Utility.SendBackgroundKey(_wowManager.GameProcess.MainWindowHandle, (char)Keys.End, false);
                 Utility.SendBackgroundString(_wowManager.GameProcess.MainWindowHandle, new string('\b', editBoxText.Length * 2), false);
                 _wowManager.Profile.Log("Pressing 'end' + delete keys to remove contents from {0}", editBoxName);
             }
