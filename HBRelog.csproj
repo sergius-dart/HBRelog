@@ -93,7 +93,7 @@
     <Compile Include="Tasks\ICustomTaskEditControlDataBound.cs" />
     <Compile Include="WoW\States\CharacterCreationState.cs" />
     <Compile Include="WoW\States\CharacterSelectState.cs" />
-    <Compile Include="WoW\States\CustomStateLib.cs" />
+    <Compile Include="WoW\States\CustomUtility.cs" />
     <Compile Include="WoW\States\MonitorState.cs" />
     <Compile Include="WoW\States\RealmSelectState.cs" />
     <Compile Include="WoW\WowLockToken.cs" />

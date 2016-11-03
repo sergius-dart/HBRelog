@@ -117,7 +117,7 @@ namespace HighVoltz.HBRelog.WoW.States
 
             SetGameTitle();
 
-            _wowManager.CharCreationFailed = false;
+            _wowManager.CharAutoCreationFailed = false;
 
             // everything looks good. Press 'Enter' key to login.
             Utility.SendBackgroundKey(_wowManager.GameProcess.MainWindowHandle, (char)Keys.Enter, false);

@@ -64,10 +64,10 @@ namespace HighVoltz.HBRelog.WoW.States
                 return;
             }
 
-            var btnStarter = CustomStateLib.GetVisibleButtonByName("StarterEditionPopUpExitButton", _wowManager);
-            if (btnStarter != null)
+            var btnStarter = CustomUtility.GetVisibleButtonByName("StarterEditionPopUpExitButton", _wowManager);
+            if (btnStarter != null && btnStarter.IsVisible && _wowManager.GlueScreen == GlueScreen.CharSelect)
             {
-                CustomStateLib.ClickButton(btnStarter, _wowManager);
+                CustomUtility.ClickButton(btnStarter, _wowManager);
             }
 
 
@@ -76,14 +76,16 @@ namespace HighVoltz.HBRelog.WoW.States
 
         private void TryCreateChar()
         {
-            var btnCreateChar = CustomStateLib.GetVisibleButtonByName("CharSelectCreateCharacterButton", _wowManager);
+            var btnCreateChar = CustomUtility.GetVisibleButtonByName("CharSelectCreateCharacterButton", _wowManager);
 
             if (btnCreateChar != null && _wowManager.GlueScreen == GlueScreen.CharSelect)
             {
-                if (!_wowManager.CharCreationFailed)
+                CustomUtility.SleepUntil(btnCreateChar.IsVisible, TimeSpan.FromSeconds(15));
+
+                if (!_wowManager.CharAutoCreationFailed)
                 {
                     _wowManager.Profile.Log("Try to Create new Char...");
-                    CustomStateLib.ClickButton(btnCreateChar, _wowManager);
+                    CustomUtility.ClickButton(btnCreateChar, _wowManager);
                 }
             }
         }

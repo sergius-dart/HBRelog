@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HighVoltz.HBRelog.WoW.States
 {
-    class CustomStateLib
+    class CustomUtility
     {
 
         public static bool EnterText(string editBoxName, string text, WowManager _wowManager)
@@ -44,6 +44,15 @@ namespace HighVoltz.HBRelog.WoW.States
 
             TimeSpan.FromSeconds(2);
             return true;
+        }
+
+        internal static bool SleepUntil(bool condition, TimeSpan maxSleepTime)
+        {
+            var sleepStart = DateTime.Now;
+            var timeOut = false;
+            while (!condition && (timeOut = DateTime.Now - sleepStart >= maxSleepTime) == false)
+                Thread.Sleep(10);
+            return !timeOut;
         }
 
         public static bool Sleep(TimeSpan maxSleepTime)

@@ -20,7 +20,7 @@ namespace HighVoltz.HBRelog.WoW
 {
 	public sealed class WowManager : Engine, IGameManager
 	{
-        public bool CharCreationFailed = false;
+        public bool CharAutoCreationFailed = false;
 
         public WowManager(CharacterProfile profile)
 		{
