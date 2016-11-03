@@ -163,6 +163,7 @@ namespace HighVoltz.HBRelog.Settings
         /// <summary>
         /// The in-game character name
         /// </summary>
+        //[IgnoreDataMember]
         public string CharacterName
         {
             get { return _characterName; }
@@ -173,12 +174,38 @@ namespace HighVoltz.HBRelog.Settings
         /// <summary>
         /// Name of the WoW server
         /// </summary>
+        //[IgnoreDataMember]
         public string ServerName
         {
             get { return _serverName; }
 			set { NotifyPropertyChanged(ref _serverName, ref value, nameof(ServerName)); }
 		}
-		private string _wowPath;
+
+
+        private string _raceName;
+        /// <summary>
+        /// The in-game character name
+        /// </summary>
+        //[IgnoreDataMember]
+        public string RaceName
+        {
+            get { return _raceName; }
+            set { NotifyPropertyChanged(ref _raceName, ref value, nameof(RaceName)); }
+        }
+
+        private string _className;
+        /// <summary>
+        /// Name of the WoW server
+        /// </summary>
+        //[IgnoreDataMember]
+        public string ClassName
+        {
+            get { return _className; }
+            set { NotifyPropertyChanged(ref _className, ref value, nameof(ClassName)); }
+        }
+
+
+        private string _wowPath;
         /// <summary>
         /// Path to your WoW.Exe
         /// </summary>

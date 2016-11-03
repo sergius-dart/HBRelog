@@ -83,6 +83,11 @@ namespace HighVoltz.HBRelog
             return wi;
         }
 
+        internal static void SleepUntil(bool v, TimeSpan timeSpan)
+        {
+            throw new NotImplementedException();
+        }
+
         public static Process GetChildProcessByName(int parentPid, string processName)
         {
             var processes = Process.GetProcessesByName(processName);

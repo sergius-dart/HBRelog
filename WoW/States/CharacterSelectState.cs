@@ -54,7 +54,8 @@ namespace HighVoltz.HBRelog.WoW.States
 			// trial account will have a promotion frame that requires clicking a 'Play Trial' button to enter game.
 			if (ClickPlayTrial())
 	        {
-		        return;
+                
+                return;
 	        }
 
             if (ShouldChangeRealm)
@@ -62,7 +63,29 @@ namespace HighVoltz.HBRelog.WoW.States
                 ChangeRealm();
                 return;
             }
+
+            var btnStarter = CustomStateLib.GetVisibleButtonByName("StarterEditionPopUpExitButton", _wowManager);
+            if (btnStarter != null)
+            {
+                CustomStateLib.ClickButton(btnStarter, _wowManager);
+            }
+
+
             HandleCharacterSelect();
+        }
+
+        private void TryCreateChar()
+        {
+            var btnCreateChar = CustomStateLib.GetVisibleButtonByName("CharSelectCreateCharacterButton", _wowManager);
+
+            if (btnCreateChar != null && _wowManager.GlueScreen == GlueScreen.CharSelect)
+            {
+                if (!_wowManager.CharCreationFailed)
+                {
+                    _wowManager.Profile.Log("Try to Create new Char...");
+                    CustomStateLib.ClickButton(btnCreateChar, _wowManager);
+                }
+            }
         }
 
         bool HandleCharacterSelect()
@@ -79,7 +102,10 @@ namespace HighVoltz.HBRelog.WoW.States
                                   select fontString.Text).ToList();
 
             if (!characterNames.Any())
+            {
+                TryCreateChar();
                 return false;
+            }
 
             var charName = _wowManager.Settings.CharacterName;
             var wantedCharIndex =
@@ -97,6 +123,8 @@ namespace HighVoltz.HBRelog.WoW.States
 	            }
                 _wowManager.Profile.Status = $"Character name: {charName} not found. Double check spelling";
                 _wowManager.Profile.Log("Character name not found. Double check spelling");
+
+                TryCreateChar();
                 return false;
             }
 
@@ -182,5 +210,7 @@ namespace HighVoltz.HBRelog.WoW.States
                 return promotionFrame != null && promotionFrame.IsVisible;
             }
         }
+
+        
     }
 }

@@ -9,7 +9,7 @@
              xmlns:HighVoltz="clr-namespace:HighVoltz.HBRelog"
              mc:Ignorable="d" 
              x:Name="root"
-             d:DesignHeight="340" d:DesignWidth="300">
+             d:DesignHeight="389.131" d:DesignWidth="300">
     <UserControl.Resources>
         <Converters:SpacifierConverter x:Key="SpaceConverter" />
         <Converters:TaskIsRunningConverter x:Key="TaskIsRunningConverter" />
@@ -33,6 +33,9 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -78,27 +81,37 @@
                             <TextBlock Text="Server" Grid.Row="7" HorizontalAlignment="Left" Height="20" Margin="5,1,0,0" />
                             <TextBox x:Name="ServerText" Grid.Column="2" Grid.Row="7" Text="{Binding Path=WowSettings.ServerName}"
                                      ToolTip="Name of the server/realm that your character is located on"/>
+                            <TextBlock Text="RaceName" Grid.Row="8" HorizontalAlignment="Left" Height="20" Margin="5,1,0,0" />
+                            <TextBox x:Name="RaceText" Grid.Column="2" Grid.Row="8" Text="{Binding Path=Settings.WowSettings.RaceName}"
+                                     ToolTip="Case-sensitive!"/>
+                            <TextBlock Text="ClassName" Grid.Row="9" HorizontalAlignment="Left" Height="20" Margin="5,1,0,0" />
+                            <TextBox x:Name="ClassText" Grid.Column="2" Grid.Row="9" Text="{Binding Path=Settings.WowSettings.ClassName}"
+                                     ToolTip="Case-sensitive!"/>
                             <!--Wow Region-->
-                            <TextBlock Text="Wow Region" Grid.Row="8" HorizontalAlignment="Left" Height="20" Margin="5,2,0,1" Grid.ColumnSpan="2" />
-                            <ComboBox x:Name="RegionCombo" Grid.Column="2" Grid.Row="8" 
+                            <TextBlock Text="Wow Region" Grid.Row="10" HorizontalAlignment="Left" Height="20" Margin="5,2,0,1" Grid.ColumnSpan="2" />
+                            <ComboBox x:Name="RegionCombo" Grid.Column="2" Grid.Row="10" 
                                       SelectionChanged="RegionCombo_SelectionChanged"
                                       ToolTip="The Wow regional area"/>
+
+                            <TextBlock Text="Proxy" Grid.Row="11" Grid.ColumnSpan="2" Height="20" Margin="5,1,0,0"></TextBlock>
+                            <TextBox Text="{Binding FakeHWID.Socket.Proxy}" Grid.Column="2" Grid.Row="11"></TextBox>
+                            
                             <!--WoW Exe-->
-                            <TextBlock Text="WoW Exe Path" Grid.Row="9" HorizontalAlignment="Left" Height="20" Margin="5,1,0,0" Grid.ColumnSpan="2" />
-                            <Controls:FileInputBox x:Name="WoWFileInput" Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2"
+                            <TextBlock Text="WoW Exe Path" Grid.Row="12" HorizontalAlignment="Left" Height="20" Margin="5,1,0,0" Grid.ColumnSpan="2" />
+                            <Controls:FileInputBox x:Name="WoWFileInput" Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="2"
                                                        FileNameChanged="WoWFileInputFileNameChanged"
                                                        Title="Browse to and select your WoW.exe file"
                                                        DefaultExt=".exe" Filter=".exe|*.exe"
                                                        ToolTip="The path to Wow.exe. click the '...' button on the right to browse to it. This can also be a batch file that launches WoW.exe"/>
 
                             <!--Server Name-->
-                            <TextBlock Text="WoW Args" Grid.Row="10" HorizontalAlignment="Left" Height="20" Margin="5,0,0,1" />
-                            <TextBox x:Name="WoWParms" Grid.Column="2" Grid.Row="10" Text="{Binding Path=WowSettings.WowArgs}"
+                            <TextBlock Text="WoW Args" Grid.Row="13" HorizontalAlignment="Left" Height="20" Margin="5,0,0,1" />
+                            <TextBox x:Name="WoWParms" Grid.Column="2" Grid.Row="13" Text="{Binding Path=Settings.WowSettings.WowArgs}"
                                      ToolTip="Command-line arguments to pass to WoW or launcher (Advanced)"/>
-                            <!-- Proxy name -->
-                            <TextBlock Text="Proxy name" Grid.Row="11" HorizontalAlignment="Left" Height="20" Margin="5,0,0,1" />
-                            <TextBox x:Name="ProxyName" Grid.Column="2" Grid.Row="11" Text="{Binding Path=WowSettings.ProxyName}"
-                                     ToolTip="Name proxy(Required to start)"/>
+
+                            <TextBlock Text="Notes" Grid.Row="14" HorizontalAlignment="Left" Height="20" Margin="5,0,0,1" />
+                            <TextBox x:Name="WoWNotes" Grid.Column="2" Grid.Row="14" Text="{Binding Path=Settings.Notes}"
+                                     ToolTip="Simple notes." Margin="0,0.4,0.2,-33"  TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
                         </Grid>
                     </ScrollViewer>
                 </Border>
