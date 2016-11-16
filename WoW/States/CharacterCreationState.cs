@@ -51,20 +51,25 @@ namespace HighVoltz.HBRelog.WoW.States
                 var className = _wowManager.Profile.Settings.WowSettings.ClassName;
 
                 var btnOkay = CustomUtility.GetVisibleButtonByName("CharCreateOkayButton", _wowManager);
-                var btnRundomChar = CustomUtility.GetVisibleButtonByName("CharCreateRandomizeButton", _wowManager);
 
                 if (btnOkay != null && _wowManager.GlueScreen == GlueScreen.CharCreate)
                 {
+                    CustomUtility.SleepUntil(btnOkay.IsShown, TimeSpan.FromSeconds(15));
+
                     CustomUtility.Sleep(TimeSpan.FromSeconds(4));
 
                     if (!CustomUtility.Visible("CharCreateRandomizeButton", _wowManager))
                     {
-                        if (raceName != "")
+                        if (raceName != null)
                         {
                             var raceBtn = CustomUtility.findObjectByText(raceName, _wowManager);
                             raceBtn = CustomUtility.findObjectByText(raceName, _wowManager);
+
                             if (raceBtn != null)
                             {
+
+                                CustomUtility.SleepUntil(raceBtn.IsShown, TimeSpan.FromSeconds(15));
+
                                 if (!CustomUtility.ClickButton(raceBtn, _wowManager))
                                 {
                                     CustomUtility.EscKeyPress(_wowManager);
@@ -74,12 +79,14 @@ namespace HighVoltz.HBRelog.WoW.States
                                     CustomUtility.Sleep(TimeSpan.FromSeconds(4));
                                 }
 
-                                if (className != "")
+                                if (className != null)
                                 {
                                     var classBtn = CustomUtility.findObjectByText(className, _wowManager);
                                     classBtn = CustomUtility.findObjectByText(className, _wowManager);
                                     if (classBtn != null)
                                     {
+                                        CustomUtility.SleepUntil(classBtn.IsShown, TimeSpan.FromSeconds(15));
+
                                         if (! CustomUtility.ClickButton(classBtn, _wowManager))
                                         {
                                             CustomUtility.EscKeyPress(_wowManager);
@@ -121,10 +128,16 @@ namespace HighVoltz.HBRelog.WoW.States
                         CustomUtility.Sleep(TimeSpan.FromSeconds(2));
 
                         var btnDlgOkay = CustomUtility.GetVisibleButtonByName("GlueDialogButton1", _wowManager);
+
                         if (btnDlgOkay == null)
                         {
+
                             if (CustomUtility.Visible("CharacterCreateNameEdit", _wowManager))
                             {
+                                var btnRundomChar = CustomUtility.GetVisibleButtonByName("CharCreateRandomizeButton", _wowManager);
+
+                                CustomUtility.SleepUntil(btnRundomChar.IsShown, TimeSpan.FromSeconds(15));
+
                                 _wowManager.Profile.Log("Rundomize char");
                                 CustomUtility.ClickButton(btnRundomChar, _wowManager);
 

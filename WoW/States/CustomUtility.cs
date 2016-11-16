@@ -48,7 +48,7 @@ namespace HighVoltz.HBRelog.WoW.States
             return true;
         }
 
-        internal static bool SleepUntil(bool condition, TimeSpan maxSleepTime)
+        public static bool SleepUntil(bool condition, TimeSpan maxSleepTime)
         {
             var sleepStart = DateTime.Now;
             var timeOut = false;
@@ -70,7 +70,6 @@ namespace HighVoltz.HBRelog.WoW.States
         {
             Utility.SendBackgroundKey(_wowManager.GameProcess.MainWindowHandle, (char)System.Windows.Forms.Keys.Escape, false);
             _wowManager.Profile.Log("Pressing 'Esc' key to exit character creation screen");
-            TimeSpan.FromSeconds(1);
         }
 
         public static bool Visible(string name, WowManager _wowManager)

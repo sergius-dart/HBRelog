@@ -80,7 +80,7 @@ namespace HighVoltz.HBRelog.WoW.States
 
             if (btnCreateChar != null && _wowManager.GlueScreen == GlueScreen.CharSelect)
             {
-                CustomUtility.SleepUntil(btnCreateChar.IsVisible, TimeSpan.FromSeconds(15));
+                CustomUtility.SleepUntil(btnCreateChar.IsShown, TimeSpan.FromSeconds(15));
 
                 if (!_wowManager.CharAutoCreationFailed)
                 {

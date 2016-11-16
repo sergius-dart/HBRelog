@@ -61,6 +61,10 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DynamicExpresso.Core, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\DynamicExpresso.Core.1.3.3.4\lib\net40\DynamicExpresso.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Honorbuddy">
       <HintPath>C:\Program Files (x86)\Honorbuddy\Honorbuddy.exe</HintPath>
     </Reference>
