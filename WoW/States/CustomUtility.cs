@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Button = HighVoltz.HBRelog.WoW.FrameXml.Button;
+using EditBox = HighVoltz.HBRelog.WoW.FrameXml.EditBox;
 
 namespace HighVoltz.HBRelog.WoW.States
 {
@@ -48,6 +49,16 @@ namespace HighVoltz.HBRelog.WoW.States
             return true;
         }
 
+        public static bool SleepUntilVisible(Frame frame, TimeSpan maxSleepTime)
+        {
+            var sleepStart = DateTime.Now;
+            var timeOut = false;
+            if (frame == null) return false;
+            while ((!(frame.IsVisible && frame.IsShown)) && ((timeOut = DateTime.Now - sleepStart >= maxSleepTime) == false))
+                Thread.Sleep(100);
+            return !timeOut;
+        }
+
         public static bool SleepUntil(bool condition, TimeSpan maxSleepTime)
         {
             var sleepStart = DateTime.Now;
@@ -75,8 +86,8 @@ namespace HighVoltz.HBRelog.WoW.States
         public static bool Visible(string name, WowManager _wowManager)
         {
             var names = (from obj in UIObject.GetUIObjectsOfType<Frame>(_wowManager)
-                    where obj.IsVisible
-                    select obj.Name).ToList();
+                    where (obj.IsVisible)
+                         select obj.Name).ToList();
 
             return names.Find(n => n == name) != null;
         }
@@ -84,7 +95,7 @@ namespace HighVoltz.HBRelog.WoW.States
         public static bool Visible(Frame frame, WowManager _wowManager)
         {
             var names = (from obj in UIObject.GetUIObjectsOfType<Frame>(_wowManager)
-                         where obj.IsVisible
+                         where (obj.IsVisible)
                          select obj).ToList();
 
             return names.Find(n => n == frame) != null;
@@ -93,28 +104,28 @@ namespace HighVoltz.HBRelog.WoW.States
         public static List<string> GetVisibleObjectNames(WowManager _wowManager)
         {
             return (from obj in UIObject.GetUIObjectsOfType<Frame>(_wowManager)
-                    where obj.IsVisible
+                    where (obj.IsVisible)
                     select obj.Name).ToList();
         }
 
         public static List<string> GetVisibleObjectsTexts(WowManager _wowManager)
         {
             return (from obj in UIObject.GetUIObjectsOfType<Frame>(_wowManager)
-                    where obj.IsVisible
+                    where (obj.IsVisible)
                     select obj.Regions.OfType<FontString>().FirstOrDefault()?.Text ?? "").ToList();
         }
 
         public static List<string> GetVisibleObjectsTypeNames(WowManager _wowManager)
         {
             return (from obj in UIObject.GetUIObjectsOfType<Frame>(_wowManager)
-                    where obj.IsVisible
+                    where (obj.IsVisible)
                     select obj.GetType().ToString()).ToList();
         }
 
         public static List<Frame> GetVisibleObjects(WowManager _wowManager)
         {
             return (from obj in UIObject.GetUIObjectsOfType<Frame>(_wowManager)
-                    where obj.IsVisible
+                    where (obj.IsVisible)
                     select obj).ToList();
         }
 
@@ -143,8 +154,19 @@ namespace HighVoltz.HBRelog.WoW.States
         public static List<string> GetVisibleButtonNames(WowManager _wowManager)
         {
             return (from button in UIObject.GetUIObjectsOfType<Button>(_wowManager)
-                            where button.IsVisible
+                            where (button.IsVisible) 
                             select button.Name).ToList();
+        }
+
+
+        public static EditBox GetVisibleEditBoxByName(string name, WowManager _wowManager)
+        {
+            var textBox = UIObject.GetUIObjectByName<EditBox>(_wowManager, name);
+            if (textBox != null && textBox.IsVisible)
+            {
+                return textBox;
+            }
+            return null;
         }
 
         public static Button GetVisibleButtonByName(string name, WowManager _wowManager)
@@ -163,7 +185,6 @@ namespace HighVoltz.HBRelog.WoW.States
             {
                 var clickPos = _wowManager.ConvertWidgetCenterToWin32Coord(obj);
                 Utility.LeftClickAtPos(_wowManager.GameProcess.MainWindowHandle, (int)clickPos.X, (int)clickPos.Y);
-                TimeSpan.FromSeconds(2);
                 return true;
             }
             return false;

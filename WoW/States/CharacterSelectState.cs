@@ -54,9 +54,18 @@ namespace HighVoltz.HBRelog.WoW.States
 			// trial account will have a promotion frame that requires clicking a 'Play Trial' button to enter game.
 			if (ClickPlayTrial())
 	        {
-                
                 return;
 	        }
+
+            var btnStarter = CustomUtility.GetVisibleButtonByName("StarterEditionPopUpExitButton", _wowManager);
+
+            if (btnStarter != null && _wowManager.GlueScreen == GlueScreen.CharSelect)
+            {
+                if (CustomUtility.SleepUntilVisible(btnStarter, TimeSpan.FromSeconds(60))) {
+                    CustomUtility.ClickButton(btnStarter, _wowManager);
+                    CustomUtility.Sleep(TimeSpan.FromSeconds(2));
+                }
+            }
 
             if (ShouldChangeRealm)
             {
@@ -64,30 +73,33 @@ namespace HighVoltz.HBRelog.WoW.States
                 return;
             }
 
-            var btnStarter = CustomUtility.GetVisibleButtonByName("StarterEditionPopUpExitButton", _wowManager);
-            if (btnStarter != null && btnStarter.IsVisible && _wowManager.GlueScreen == GlueScreen.CharSelect)
-            {
-                CustomUtility.ClickButton(btnStarter, _wowManager);
-            }
-
+            //CustomUtility.Sleep(TimeSpan.FromSeconds(2));
 
             HandleCharacterSelect();
         }
 
-        private void TryCreateChar()
+        private bool TryCreateChar()
         {
+            //var names = CustomUtility.GetVisibleObjectNames(_wowManager);
+            //var types = CustomUtility.GetVisibleObjectsTypeNames(_wowManager);
+            //var texts = CustomUtility.GetVisibleObjectsTexts(_wowManager);
+            //var objects = CustomUtility.GetVisibleObjects(_wowManager);
+
             var btnCreateChar = CustomUtility.GetVisibleButtonByName("CharSelectCreateCharacterButton", _wowManager);
 
             if (btnCreateChar != null && _wowManager.GlueScreen == GlueScreen.CharSelect)
             {
-                CustomUtility.SleepUntil(btnCreateChar.IsShown, TimeSpan.FromSeconds(15));
-
-                if (!_wowManager.CharAutoCreationFailed)
+                if (CustomUtility.SleepUntilVisible(btnCreateChar, TimeSpan.FromSeconds(60)))
                 {
+                    CustomUtility.Sleep(TimeSpan.FromSeconds(2));
+
                     _wowManager.Profile.Log("Try to Create new Char...");
+
                     CustomUtility.ClickButton(btnCreateChar, _wowManager);
+                    return true;
                 }
             }
+            return false;
         }
 
         bool HandleCharacterSelect()
@@ -103,30 +115,34 @@ namespace HighVoltz.HBRelog.WoW.States
                                   orderby grandParent.Id
                                   select fontString.Text).ToList();
 
-            if (!characterNames.Any())
-            {
-                TryCreateChar();
-                return false;
-            }
-
+         
             var charName = _wowManager.Settings.CharacterName;
             var wantedCharIndex =
                 characterNames.FindIndex(n => string.Equals(n, charName, StringComparison.InvariantCultureIgnoreCase)) + 1;
 
             if (wantedCharIndex == 0)
             {
-	            var inactivecharName = $"{charName} |cffff2020(Inactive)|r";
-	            if (characterNames.Any(n => string.Equals(inactivecharName, n, StringComparison.InvariantCultureIgnoreCase)))
-	            {
-					_wowManager.Profile.Status = "WoW subscription is inactive";
-					_wowManager.Profile.Log("WoW subscription is inactive");
-					_wowManager.Profile.Pause();
-					return false;
-	            }
-                _wowManager.Profile.Status = $"Character name: {charName} not found. Double check spelling";
-                _wowManager.Profile.Log("Character name not found. Double check spelling");
-
-                TryCreateChar();
+                if (!_wowManager.CharAutoCreationFailed)
+                {
+                    if (!TryCreateChar())
+                    {
+                        return false;
+                    }
+                } 
+                else
+                {
+                    var inactivecharName = $"{charName} |cffff2020(Inactive)|r";
+                    if (characterNames.Any(n => string.Equals(inactivecharName, n, StringComparison.InvariantCultureIgnoreCase)))
+                    {
+                        _wowManager.Profile.Status = "WoW subscription is inactive";
+                        _wowManager.Profile.Log("WoW subscription is inactive");
+                        _wowManager.Profile.Pause();
+                        return false;
+                    }
+                    _wowManager.Profile.Status = $"Character name: {charName} not found. Double check spelling";
+                    _wowManager.Profile.Log("Character name not found. Double check spelling");
+                }
+                
                 return false;
             }
 
@@ -191,16 +207,18 @@ namespace HighVoltz.HBRelog.WoW.States
 			if (promotionFrame == null || !promotionFrame.IsVisible)
 				return false;
 
-		    var playButton = promotionFrame.Children.LastOrDefault() as Button;
-		    if (playButton == null)
+            var playButton = promotionFrame.Children.LastOrDefault() as Button;
+            if (playButton == null)
 		    {
 			    Log.Write("Unable to find the 'Play Trial' button! notify developer");
 				_wowManager.Profile.Pause();
+
 				return false;
 		    }
 			var clickPos = _wowManager.ConvertWidgetCenterToWin32Coord(playButton);
 			Utility.LeftClickAtPos(_wowManager.GameProcess.MainWindowHandle, (int)clickPos.X, (int)clickPos.Y);
-			return true;
+
+            return true;
 	    }
 
 

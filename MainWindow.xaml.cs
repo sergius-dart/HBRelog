@@ -361,5 +361,10 @@ namespace HighVoltz.HBRelog
                 killHBMenu.Visibility = Visibility.Collapsed;
             }
         }
+
+        private void AccountGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            StartSelButtonClick(sender, e);
+        }
     }
 }
