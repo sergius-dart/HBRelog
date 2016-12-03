@@ -356,6 +356,8 @@ namespace HighVoltz.HBRelog.Settings
                     wowSettingsElement.Add(new XElement("WowWindowX", profile.Settings.WowSettings.WowWindowX));
                     wowSettingsElement.Add(new XElement("WowWindowY", profile.Settings.WowSettings.WowWindowY));
                     wowSettingsElement.Add(new XElement("ProxyName", profile.Settings.WowSettings.ProxyName));
+                    wowSettingsElement.Add(new XElement("RaceName", profile.Settings.WowSettings.RaceName));
+                    wowSettingsElement.Add(new XElement("ClassName", profile.Settings.WowSettings.ClassName));
                     settingsElement.Add(wowSettingsElement);
                     var hbSettingsElement = new XElement("HonorbuddySettings");
                     // Honorbuddy Settings
@@ -516,6 +518,8 @@ namespace HighVoltz.HBRelog.Settings
                             profile.Settings.WowSettings.WowWindowX = GetElementValue<int>(wowSettingsElement.Element("WowWindowX"));
                             profile.Settings.WowSettings.WowWindowY = GetElementValue<int>(wowSettingsElement.Element("WowWindowY"));
                             profile.Settings.WowSettings.ProxyName = GetElementValue<string>(wowSettingsElement.Element("ProxyName"),"");
+                            profile.Settings.WowSettings.RaceName = GetElementValue<string>(wowSettingsElement.Element("RaceName"), "");
+                            profile.Settings.WowSettings.ClassName = GetElementValue<string>(wowSettingsElement.Element("ClassName"), "");
                         }
                         XElement hbSettingsElement = settingsElement.Element("HonorbuddySettings");
                         // Honorbuddy Settings
