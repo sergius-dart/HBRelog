@@ -82,10 +82,10 @@
                             <TextBox x:Name="ServerText" Grid.Column="2" Grid.Row="7" Text="{Binding Path=WowSettings.ServerName}"
                                      ToolTip="Name of the server/realm that your character is located on"/>
                             <TextBlock Text="RaceName" Grid.Row="8" HorizontalAlignment="Left" Height="20" Margin="5,1,0,0" />
-                            <TextBox x:Name="RaceText" Grid.Column="2" Grid.Row="8" Text="{Binding Path=Settings.WowSettings.RaceName}"
+                            <TextBox x:Name="RaceText" Grid.Column="2" Grid.Row="8" Text="{Binding Path=WowSettings.RaceName}"
                                      ToolTip="Case-sensitive!"/>
                             <TextBlock Text="ClassName" Grid.Row="9" HorizontalAlignment="Left" Height="20" Margin="5,1,0,0" />
-                            <TextBox x:Name="ClassText" Grid.Column="2" Grid.Row="9" Text="{Binding Path=Settings.WowSettings.ClassName}"
+                            <TextBox x:Name="ClassText" Grid.Column="2" Grid.Row="9" Text="{Binding Path=WowSettings.ClassName}"
                                      ToolTip="Case-sensitive!"/>
                             <!--Wow Region-->
                             <TextBlock Text="Wow Region" Grid.Row="10" HorizontalAlignment="Left" Height="20" Margin="5,2,0,1" Grid.ColumnSpan="2" />
@@ -94,7 +94,7 @@
                                       ToolTip="The Wow regional area"/>
 
                             <TextBlock Text="Proxy" Grid.Row="11" Grid.ColumnSpan="2" Height="20" Margin="5,1,0,0"></TextBlock>
-                            <TextBox Text="{Binding FakeHWID.Socket.Proxy}" Grid.Column="2" Grid.Row="11"></TextBox>
+                            <TextBox Text="{Binding WowSettongs.ProxyName}" Grid.Column="2" Grid.Row="11"></TextBox>
                             
                             <!--WoW Exe-->
                             <TextBlock Text="WoW Exe Path" Grid.Row="12" HorizontalAlignment="Left" Height="20" Margin="5,1,0,0" Grid.ColumnSpan="2" />
